@@ -6,7 +6,9 @@ public class Campground {
 	private int parkId;
 	private String name;
 	private String openDate;
+	private String closeDate;
 	private int dailyFee;
+	
 	public int getCampgroundId() {
 		return campgroundId;
 	}
@@ -30,6 +32,13 @@ public class Campground {
 	}
 	public void setOpenDate(String openDate) {
 		this.openDate = openDate;
+	}
+		
+	public String getCloseDate() {
+			return closeDate;
+		}
+	public void setCloseDate(String openDate) {
+			this.closeDate = openDate;
 	}
 	public int getDailyFee() {
 		return dailyFee;
