@@ -1,21 +1,14 @@
 package com.techelevator;
 
+import java.util.List;
+
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 public interface ReservationDAO {
 
+	Reservation createReservation(Reservation newReservation);
+	
+	
+	List<Reservation> openSiteSearchPark();
 
-
-@Override
-public Reservation createReservation(Reservation newReservation) {
-	
-	String sqlNewReservaton = "INSERT INTO reservation(dreservation_id, site_id, name, from_date, to_date, create_date)"
-			+ " VALUES(?, ?, ?, ?, ? ,?)";
-	
-	newReservation.setId(getNextReservationID() );
-	
-	jdbcTemplate.update(sqlNewReservation, newReservation.getId(), newReservation.getName());
-	
-	return newReservation;
-
-	}
+	List<Reservation> openSiteSearchCampground();
 }
