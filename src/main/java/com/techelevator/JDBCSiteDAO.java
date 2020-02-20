@@ -1,5 +1,5 @@
 package com.techelevator;
 
-public class JDBCSiteDAO {
+public class JDBCSiteDAO implements SiteDAO {
 
 }

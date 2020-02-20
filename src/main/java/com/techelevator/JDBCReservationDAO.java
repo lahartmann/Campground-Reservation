@@ -1,5 +1,5 @@
 package com.techelevator;
 
-public class JDBCReservationDAO {
+public class JDBCReservationDAO implements ReservationDAO {
 
 }
