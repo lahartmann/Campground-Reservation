@@ -1,5 +1,7 @@
 package com.techelevator;
 
+import java.util.List;
+
 public class Campground {
 	
 	private int campgroundId;
@@ -45,6 +47,10 @@ public class Campground {
 	}
 	public void setDailyFee(int dailyFee) {
 		this.dailyFee = dailyFee;
+	}
+	public static List<Campground> getCampgroundById(int park_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

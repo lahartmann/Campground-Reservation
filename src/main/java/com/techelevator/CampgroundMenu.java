@@ -16,16 +16,16 @@ public class CampgroundMenu {
 			this.in = new Scanner(input);
 		}
 
-		public Object getChoiceFromOptions(Object[] options) {
-			Object choice = null;
+		public static String getChoiceFromOptions(String[] parkNames) {
+			String choice = null;
 			while(choice == null) {
-				displayMenuOptions(options);
-				choice = getChoiceFromUserInput(options);
+				displayMenuOptions(parkNames);
+				choice = getChoiceFromUserInput(parkNames);
 			}
 			return choice;
 		}
 
-		private Object getChoiceFromUserInput(Object[] options) {
+		private String getChoiceFromUserInput(String [] options) {
 			Object choice = null;
 			String userInput = in.nextLine();
 			try {
@@ -42,7 +42,7 @@ public class CampgroundMenu {
 			return choice;
 		}
 
-		private void displayMenuOptions(Object[] options) {
+		private void displayMenuOptions(String options) {
 			out.println();
 			for(int i = 0; i < options.length; i++) {
 				int optionNum = i+1;
