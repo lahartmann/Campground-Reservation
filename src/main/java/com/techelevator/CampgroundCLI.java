@@ -1,17 +1,20 @@
 package com.techelevator;
 
-
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-
 public class CampgroundCLI {
+	
 	
 
 	private CampgroundMenu menu;
@@ -20,86 +23,171 @@ public class CampgroundCLI {
 	private CampgroundDAO campgroundDAO;
 	private ReservationDAO reservationDAO;
 	private String firstOption;
+	private String secondOption;
+	private String thirdOption;
 	private Park displayPark;
+	private Campground displayCampground;
+	private Site displaySite;
+	private String startDate;
+	private String endDate;
 	private List<Park> parkNames = new ArrayList<>();
-	public static void main(String[] args) throws SQLException
-		{
-			BasicDataSource dataSource = new BasicDataSource();
-			dataSource.setUrl("jdbc:postgresql://localhost:5432/campground");
-			dataSource.setUsername("postgres");
-			dataSource.setPassword("postgres1");
-			
-			CampgroundCLI application = new CampgroundCLI(dataSource);
-			application.run();
-			dataSource.close();
-		
-			Scanner campScanner = new Scanner(System.in);
-			String firstOption;
-		}
+	private Scanner campScanner = new Scanner(System.in);
 
-		public CampgroundCLI(DataSource datasource)
-		{
-			parkDAO = new JDBCParkDAO(datasource);
-			campgroundDAO = new JDBCCampgroundDAO(datasource);
-			siteDAO = new JDBCSiteDAO(datasource);
-			reservationDAO = new JDBCReservationDAO(datasource);
-		}
-		
-		public void run()
-		{
-		Scanner campScanner = new Scanner(System.in);
+	public static void main(String[] args) throws SQLException {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/campground");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("postgres1");
+
+		CampgroundCLI application = new CampgroundCLI(dataSource);
+		application.run();
+		dataSource.close();
+
+	}
+
+	public CampgroundCLI(DataSource datasource) {
+		parkDAO = new JDBCParkDAO(datasource);
+		campgroundDAO = new JDBCCampgroundDAO(datasource);
+		siteDAO = new JDBCSiteDAO(datasource);
+		reservationDAO = new JDBCReservationDAO(datasource);
+	}
+
+	public void run() {
+
 		System.out.println("Welcome to the Campground Booking App");
-	
-		while(true) {
+
+		while (true) {
 			List parkList = new ArrayList();
 			parkNames = parkDAO.getAllParks();
-			for (int i = 0; i < parkNames.size(); i ++) {
+			for (int i = 0; i < parkNames.size(); i++) {
 				parkList.add(parkNames.get(i).getPark_id());
 				parkList.add(parkNames.get(i).getName());
 			}
-			
-				System.out.println(parkList);
-			
+
+			System.out.println(parkList);
+
 			System.out.println("Select a park number for futher details or Q to quit");
 			firstOption = campScanner.nextLine();
-			
-				if(firstOption.equalsIgnoreCase("Q")) {
+
+			if (firstOption.equalsIgnoreCase("Q")) {
 				System.out.println("Thank you for computing, have a pleasant day!");
 				System.exit(0);
-				}else if (Integer.parseInt(firstOption) <=  parkNames.size()) {
+			} else if (Integer.parseInt(firstOption) <= parkNames.size()) {
 				campMenuTwo();
-				} else {
-					System.out.println("Please make a valid selection");
-				}
+			} else {
+				System.out.println("Please make a valid selection");
 			}
 		}
-		
-		
-private void campMenuTwo(){
-			printMenuTwoHeader(firstOption);
-			
 	}
-				
-	//Helper Methods
-		private void printMenuTwoHeader(String firstOption){
-			displayPark = parkNames.get(Integer.parseInt(firstOption));
-			
-			System.out.println("Park Info Screen");
-			System.out.println( displayPark.getName());
-			System.out.println("Location: " + displayPark.getLocation());
-			System.out.println("Established: " + displayPark.getEstablish_date());
-			System.out.println("Area: " + displayPark.getArea());
-			System.out.println("Annual Vistors: " + displayPark.getVisitors());
-			
+
+	private void campMenuTwo() {
+
+		// while(!secondOption.equalsIgnoreCase("2")) {
+		printMenuTwoHeader(firstOption);
+		secondOption = campScanner.nextLine();
+		if (secondOption.equals("1")) {
+			campMenuThree();
+		} else if (secondOption.equals("2")) {
+			run();
+		} else {
+			System.out.println("Please enter a valid option.");
+			;
 		}
 
-	
-				{}
-			{}	
+	}
+
+	private void campMenuThree() {
+		List <Campground> campgroundNames = new ArrayList<>();
 		
+		printMenuThreeHeader();
+			while(true) {
+				System.out.println("Which campground? (enter 0 to return to previous menu.)");
+				thirdOption = campScanner.nextLine();
+				if (thirdOption.equals("0")) {
+					campMenuTwo();
+				}
+				else if (Integer.parseInt(thirdOption)-1 <= campgroundNames.size()) {
+					while(true) {
+						System.out.println("Enter arrival date (yyyy-mm-dd)");
+						startDate = campScanner.nextLine();
+						try {
+							LocalDate.parse(startDate, DateTimeFormatter.ofPattern("uuuu-MM-dd"));//check method(DateTimeFormater) for proper string format 
+							break;}
+						catch (DateTimeParseException e) {
+							System.out.println("Please enter date as yyyy-mm-dd");
+							
+							}
+						}
+					}
+					
+				
+				while(true) {
+					System.out.println("Enter departure date (yyyy-mm-dd)");
+					endDate = campScanner.nextLine();
+					try{
+						LocalDate.parse(startDate, DateTimeFormatter.ofPattern("uuuu-M/L-dd"));
+					break;}
+					catch (DateTimeParseException d) {
+						System.out.println("Please enter date as yyyy-mm-dd");
+						campMenuFour();
+					}
+				} //System.out.println("Please enter valid campground id");//This needs to work to handle invaild campsite codes	
+			}
+	}
+	
+	private void campMenuFour() {
+		printMenuFourHeader();
+		
+	}
+	
+	
+	
+		
+
+	// Helper Methods
+	private void printMenuTwoHeader(String firstOption) {
+		displayPark = parkNames.get(Integer.parseInt(firstOption) - 1);
+
+		System.out.println("Park Info Screen");
+		System.out.println(displayPark.getName());
+		System.out.println("Location: " + displayPark.getLocation());
+		System.out.println("Established: " + displayPark.getEstablish_date());
+		System.out.println("Area: " + displayPark.getArea());
+		System.out.println("Annual Vistors: " + displayPark.getVisitors());
+		System.out.println("**********************************************");
+		System.out.println("Select an Option: ");
+		System.out.println("1) View Campgrounds and reserve a site ");
+		System.out.println("2) Return to Previous Menu ");
+
+	}
+
+	private void printMenuThreeHeader() {
+		List<Campground> campgroundNames = new ArrayList<>();
+		campgroundNames = campgroundDAO.getCampgroundByParkId(Integer.parseInt(firstOption));
+		for (int i = 0; i < campgroundNames.size(); i++) {
+			System.out.println(campgroundNames.get(i).getCampgroundId() 
+					+ " " + " " + campgroundNames.get(i).getName()
+					+ " " + " " + Integer.parseInt(campgroundNames.get(i).getOpenDate()) 
+					+ " " + " " + campgroundNames.get(i).getCloseDate() 
+					+ " " + " " + campgroundNames.get(i).getDailyFee());
 		}
-	
+	}
 
-
-
-	
+	private void printMenuFourHeader()	{
+		System.out.println("Available camp sites:");
+		System.out.printf("Site # /t Max Accup");
+		List <Site> siteList = new ArrayList<>();
+		siteList = siteDAO.getAvailableSitesByReservationDate
+				(Integer.parseInt(thirdOption), 
+				LocalDate.parse(startDate), 
+				LocalDate.parse(endDate));
+		for (int i = 0; i < siteList.size(); i++) {
+		System.out.println(siteList.get(i).getSiteId()
+				+ " " + " " + siteList.get(i).getMaxOccupancy()
+				+ " " + " " + siteList.get(i).isAccessible()
+				+ " " + " " + siteList.get(i).getMaxRvLength()
+				+ " " + " " + siteList.get(i).isUtilites()
+				+ " " + " " + displayCampground.getDailyFee());		
+			}
+		}
+	}
