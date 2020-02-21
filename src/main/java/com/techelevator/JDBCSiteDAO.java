@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class JDBCSiteDAO implements SiteDAO {
 	@Override
 	public List<Site> getAvailableSitesByReservationDate(int campgroundId, LocalDate fromDate, LocalDate toDate) {
 		List<Site> availableSites = new ArrayList<Site>();
+		
 		String sqlGetFiveAvailableSites = "SELECT * FROM site " + 
 				"JOIN campground on site.campground_id = campground.campground_id " + 
 				"WHERE site.campground_id = ? " + 
@@ -50,13 +52,21 @@ public class JDBCSiteDAO implements SiteDAO {
 		Site theSite;
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetFiveAvailableSites, campgroundId, fromDate, toDate);
 		while(results.next()) {
-			theSite = mapRowToSites(results); //Should I be mapping everything from the joined tables?
+			theSite = mapRowToSites(results); 
 			availableSites.add(theSite);
 		}
 		return  availableSites;
 	}
 	
-
+//	public BigDecimal getDailyFeeBySite(int siteId) {
+//		String sqlGetDailyFee = "SELECT daily_fee FROM campground "
+//				+ "JOIN campground ON site.campground_id = campground.campground_id "
+//				+ "WHERE site.site_id = ?";
+//		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlGetDailyFee, siteId);
+//		
+//		return result;
+//		
+//	}
 	
 	private Site mapRowToSites(SqlRowSet results) {
 		Site allSites = new Site();
@@ -67,6 +77,7 @@ public class JDBCSiteDAO implements SiteDAO {
 		allSites.setAccessible(results.getBoolean("accessible"));
 		allSites.setMaxRvLength(results.getInt("max_rv_length"));
 		allSites.setUtilites(results.getBoolean("utilities"));
+		
 
 		return allSites;
 	}

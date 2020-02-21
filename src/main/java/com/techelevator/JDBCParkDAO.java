@@ -37,6 +37,15 @@ public class JDBCParkDAO implements ParkDAO {
 		return allParksList;
 	}
 	
+	@Override
+	public Park createPark(Park newPark) {
+		String sqlCreatePark = "INSERT INTO park (name, location, establish_date, area, visitors, description )" + "VALUES ( ?, ?, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(sqlCreatePark, newPark.getName(), newPark.getLocation(), newPark.getEstablish_date(), newPark.getArea(), newPark.getVisitors(), newPark.getDescription());
+
+		return newPark;
+
+	}
 	
 	private Park mapRowToPark(SqlRowSet results) {
 		Park allParks = new Park();
@@ -52,10 +61,11 @@ public class JDBCParkDAO implements ParkDAO {
 		return allParks;
 	}
 
-	@Override
-	public Park getParkByNameAndState(String string, String string2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+//	@Override
+//	public Park getParkByNameAndState(String string, String string2) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }
