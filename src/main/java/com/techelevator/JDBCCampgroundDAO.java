@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 
 
+
 public class JDBCCampgroundDAO implements CampgroundDAO  {
 
 	
@@ -22,7 +23,7 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 	@Override
 	public List<Campground> getAllCampgrounds() {
 		ArrayList<Campground> campgroundList = new ArrayList<>();
-		String sqlGetAllCampgrounds = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "FROM department";
+		String sqlGetAllCampgrounds = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "FROM campground";
 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllCampgrounds);
 		while (results.next()) {
@@ -74,6 +75,15 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 		return campgrounds;
 	} 
 	
+	@Override
+	public Campground createCampground(Campground newCamp) {
+		String sqlCreateCamp = "INSERT INTO campground (park_id, name, open_from_mm, open_to_mm, daily_fee )" + "VALUES ( ?, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(sqlCreateCamp, newCamp.getParkId(), newCamp.getName(), newCamp.getOpenDate(), newCamp.getCloseDate(), newCamp.getDailyFee());
+
+		return newCamp;
+
+	}
 	
 	private Campground mapRowToCampground(SqlRowSet results) {
 		Campground allCampgrounds = new Campground();
@@ -82,7 +92,7 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 		allCampgrounds.setName(results.getString("name"));
 		allCampgrounds.setOpenDate(results.getString("open_from_mm"));
 		allCampgrounds.setCloseDate(results.getString("open_to_mm"));;
-		allCampgrounds.setDailyFee(results.getInt("daily_fee"));
+		allCampgrounds.setDailyFee(results.getDouble("daily_fee"));
 
 		return allCampgrounds;
 	}

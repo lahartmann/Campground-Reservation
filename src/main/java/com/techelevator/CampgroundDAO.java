@@ -15,6 +15,8 @@ public interface CampgroundDAO {
 
 	public List<Campground> getCampgroundByParkId(int parkId);
 
+	public Campground createCampground(Campground newCamp);
+
 
 
 }
