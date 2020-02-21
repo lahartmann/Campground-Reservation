@@ -55,6 +55,10 @@ public class Park {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public LocalDate getDayEstablished() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	
