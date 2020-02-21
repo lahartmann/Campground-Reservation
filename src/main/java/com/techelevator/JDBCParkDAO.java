@@ -17,10 +17,11 @@ public class JDBCParkDAO implements ParkDAO {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		
 	}
+	
 	@Override
 	public List<Park> getAllParkNames() {
 		ArrayList<Park> allParkNames = new ArrayList<>();
-		String sqlGetAllParkNames = "SELECT name " + "FROM Park";
+		String sqlGetAllParkNames = "SELECT name " + "FROM Park " + "ORDER BY name";
 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllParkNames);
 		while (results.next()) {

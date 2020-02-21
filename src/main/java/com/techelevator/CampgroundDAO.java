@@ -13,6 +13,8 @@ public interface CampgroundDAO {
 	
 	public Campground getCampgroundById(int campgroundId);
 
+	public List<Campground> getCampgroundByParkId(int parkId);
+
 
 
 }
