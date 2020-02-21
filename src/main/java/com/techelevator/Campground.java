@@ -1,7 +1,7 @@
 package com.techelevator;
 
 import java.math.BigDecimal;
-import java.util.List;
+
 
 public class Campground {
 	
@@ -10,7 +10,7 @@ public class Campground {
 	private String name;
 	private String openDate;
 	private String closeDate;
-	private Double dailyFee;
+	private BigDecimal dailyFee = new BigDecimal(0);
 	
 	public int getCampgroundId() {
 		return campgroundId;
@@ -43,19 +43,17 @@ public class Campground {
 	public void setCloseDate(String openDate) {
 			this.closeDate = openDate;
 	}
-	public Double getDailyFee() {
+	public BigDecimal getDailyFee() {
 		return dailyFee;
 	}
-	public void setDailyFee(Double d) {
-		this.dailyFee = d;
+	public void setDailyFee(BigDecimal dailyFee) {
+		this.dailyFee = dailyFee;
 	}
-	public static List<Campground> getCampgroundById(int park_id) {
-		// TODO Auto-generated method stub
-		return null;
+	
 	}
 	
 	
 	
 	
 
-}
+

@@ -1,5 +1,7 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 	@Override
 	public List<Campground> searchAllCampgroundsByName(String nameSearch) {
 		ArrayList<Campground> searchCampgroundByName = new ArrayList<>();
-		String sqlsearchCampground = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "WHERE  name ILIKE ?";
+		String sqlsearchCampground = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "FROM campground " + "WHERE  name ILIKE ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlsearchCampground, nameSearch);
 		while (results.next()) {
 			Campground campgroundSearches = mapRowToCampground(results);
@@ -48,20 +50,20 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 		return searchCampgroundByName;
 	}
 
-	@Override
-	public Campground getCampgroundById(int campgroundId) {
-		
-		String sqlFindCampgroundById = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "FROM campground " + "WHERE campground_id = ?";
-
-			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindCampgroundById, campgroundId);
-				
-			Campground campgroundIdResults = new Campground();
-			if (results.next()){
-				campgroundIdResults = mapRowToCampground(results);
-			
-		}
-			return campgroundIdResults;
-	}
+//	@Override
+//	public Campground getCampgroundById(int campgroundId) {
+//		
+//		String sqlFindCampgroundById = "SELECT campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee " + "FROM campground " + "WHERE campground_id = ?";
+//
+//			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindCampgroundById, campgroundId);
+//				
+//			Campground campgroundIdResults = new Campground();
+//			if (results.next()){
+//				campgroundIdResults = mapRowToCampground(results);
+//			
+//		}
+//			return campgroundIdResults;
+//	}
 	
 	@Override
 	public List<Campground> getCampgroundByParkId(int parkId) {
@@ -87,14 +89,19 @@ public class JDBCCampgroundDAO implements CampgroundDAO  {
 	
 	private Campground mapRowToCampground(SqlRowSet results) {
 		Campground allCampgrounds = new Campground();
+		BigDecimal resultsFee;
+		resultsFee = results.getBigDecimal("daily_fee").setScale(2, RoundingMode.CEILING);
 		allCampgrounds.setCampgroundId(results.getInt("campground_id"));
 		allCampgrounds.setParkId(results.getInt("park_id"));
 		allCampgrounds.setName(results.getString("name"));
 		allCampgrounds.setOpenDate(results.getString("open_from_mm"));
 		allCampgrounds.setCloseDate(results.getString("open_to_mm"));;
-		allCampgrounds.setDailyFee(results.getDouble("daily_fee"));
+		allCampgrounds.setDailyFee(resultsFee);
+		
 
 		return allCampgrounds;
 	}
 
+	
+	//Add method for formatting the mapping??
 }
