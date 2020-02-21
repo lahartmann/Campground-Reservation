@@ -11,7 +11,7 @@ public interface CampgroundDAO {
 	
 	public List<Campground> searchAllCampgroundsByName(String nameSearch);
 	
-	public Campground getCampgroundById(int campgroundId);
+	//public Campground getCampgroundById(int campgroundId);
 
 	public List<Campground> getCampgroundByParkId(int parkId);
 
