@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Campground {
@@ -9,7 +10,7 @@ public class Campground {
 	private String name;
 	private String openDate;
 	private String closeDate;
-	private int dailyFee;
+	private Double dailyFee;
 	
 	public int getCampgroundId() {
 		return campgroundId;
@@ -42,11 +43,11 @@ public class Campground {
 	public void setCloseDate(String openDate) {
 			this.closeDate = openDate;
 	}
-	public int getDailyFee() {
+	public Double getDailyFee() {
 		return dailyFee;
 	}
-	public void setDailyFee(int dailyFee) {
-		this.dailyFee = dailyFee;
+	public void setDailyFee(Double d) {
+		this.dailyFee = d;
 	}
 	public static List<Campground> getCampgroundById(int park_id) {
 		// TODO Auto-generated method stub
