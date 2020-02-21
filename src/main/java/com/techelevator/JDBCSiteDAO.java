@@ -45,7 +45,7 @@ public class JDBCSiteDAO implements SiteDAO {
 				"(SELECT site.site_id from site " + 
 				"JOIN reservation ON reservation.site_id = site.site_id " + 
 				"WHERE ? > reservation.from_date and ? < reservation.to_date) " + 
-				"ORDER BY XXXXXXX " + //what do we want to order by???
+				//"ORDER BY XXXXXXX " + //what do we want to order by???
 				"LIMIT 5";
 		Site theSite;
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetFiveAvailableSites, campgroundId, fromDate, toDate);

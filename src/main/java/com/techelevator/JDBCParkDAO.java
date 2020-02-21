@@ -21,11 +21,11 @@ public class JDBCParkDAO implements ParkDAO {
 	@Override
 	public List<Park> getAllParks() {
 		ArrayList<Park> allParksList = new ArrayList<>();
-<<<<<<< HEAD
+
 		String sqlGetAllParks = "SELECT * " + "FROM Park " + "ORDER BY name";
-=======
+
 		String sqlGetAllParkNames = "SELECT * " + "FROM Park " + "ORDER BY name";
->>>>>>> 73a7484f54c64b2a4e2dee7e5a336f01ec7b6a3a
+
 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllParks);
 		while (results.next()) {
