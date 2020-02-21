@@ -7,7 +7,7 @@ public interface ParkDAO {
 	
 	
 
-	public Park getParkByNameAndState(String string, String string2);
+	//public Park getParkByNameAndState(String string, String string2);
 
-	List<Park> getAllParkNames();
+	List<Park> getAllParks();
 }
