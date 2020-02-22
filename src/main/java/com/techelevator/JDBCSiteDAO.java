@@ -58,15 +58,15 @@ public class JDBCSiteDAO implements SiteDAO {
 		return  availableSites;
 	}
 	
-//	public BigDecimal getDailyFeeBySite(int siteId) {
-//		String sqlGetDailyFee = "SELECT daily_fee FROM campground "
-//				+ "JOIN campground ON site.campground_id = campground.campground_id "
-//				+ "WHERE site.site_id = ?";
-//		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlGetDailyFee, siteId);
-//		
-//		return result;
-//		
-//	}
+	@Override
+	public Site createSite(Site newSite) {
+		String sqlCreateSite = "INSERT INTO site (campground_id, site_number, max_occupancy, accessible, max_rv_length, utilities)" + "VALUES ( ?, ?, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(sqlCreateSite, newSite.getCampgroundID(), newSite.getSiteNumber(), newSite.getMaxOccupancy(), newSite.isAccessible(), newSite.getMaxRvLength(), newSite.isUtilities());
+
+		return newSite;
+
+	}
 	
 	private Site mapRowToSites(SqlRowSet results) {
 		Site allSites = new Site();
@@ -76,7 +76,7 @@ public class JDBCSiteDAO implements SiteDAO {
 		allSites.setMaxOccupancy(results.getInt("max_occupancy"));
 		allSites.setAccessible(results.getBoolean("accessible"));
 		allSites.setMaxRvLength(results.getString("max_rv_length"));
-		allSites.setUtilites(results.getBoolean("utilities"));
+		allSites.setUtilities(results.getBoolean("utilities"));
 		
 
 		return allSites;

@@ -22,7 +22,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 
 	
 	@Override
-	public int createReservation(int siteId, String name, LocalDate startDate, LocalDate endDate) {
+	public Reservation createReservation(int siteId, String name, LocalDate startDate, LocalDate endDate) {
 		
 		String sqlNewReservaton = "INSERT INTO reservation(reservation_id, site_id, name, from_date, to_date, create_date)"
 				+ " VALUES(?, ?, ?, ?, ? ,?)";
@@ -33,7 +33,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 		newReservation.setName(name);
 		newReservation.setFromDate(startDate);
 		newReservation.setToDate(endDate);
-		newReservation.setCreateDate(LocalDate.now());
+		newReservation.setCreateDate(LocalDate.now()); 
 		
 		
 	
@@ -45,12 +45,12 @@ public class JDBCReservationDAO implements ReservationDAO {
 				newReservation.getToDate(), 
 				newReservation.getCreateDate());
 		
-		return newReservation.getReservationId();
+		return newReservation;
 
 		}
 
 	private int getNextReservationID() {
-		SqlRowSet nextIdResult = jdbcTemplate.queryForRowSet("SELECT nextval('seq_reservation_id')");
+		SqlRowSet nextIdResult = jdbcTemplate.queryForRowSet("SELECT nextval('reservation_reservation_id_seq')");
 		if(nextIdResult.next()) {
 			return nextIdResult.getInt(1);
 		}else {

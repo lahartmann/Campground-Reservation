@@ -8,7 +8,9 @@ public interface SiteDAO {
 	
 	public List<Site> getAllSites();
 
-	List<Site> getAvailableSitesByReservationDate(int campgroundId, LocalDate startDate, LocalDate endDate);
+	public List<Site> getAvailableSitesByReservationDate(int campgroundId, LocalDate startDate, LocalDate endDate);
+
+	public Site createSite(Site newSite);
 	
 	
 	

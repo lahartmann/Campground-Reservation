@@ -197,7 +197,7 @@ public class CampgroundCLI {
 				+ " " + " 		" + siteList.get(i).getMaxOccupancy()
 				+ " " + " 		" + siteList.get(i).isAccessible()
 				+ " " + "		" + siteList.get(i).getMaxRvLength()
-				+ " " + " 		" + siteList.get(i).isUtilites()
+				+ " " + " 		" + siteList.get(i).isUtilities()
 				+ " " + " 		" + displayCampground.getDailyFee().longValue() * lengthOfStay);		
 			}
 		}

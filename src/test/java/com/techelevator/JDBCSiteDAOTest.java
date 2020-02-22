@@ -79,13 +79,16 @@ public class JDBCSiteDAOTest {
 		
 	}
 	
-//	@Test
-//	public void test_get_and_set_accessible() {	
-//		boolean accessible;
-//		mySite.setAccessible(accessible);
-//		assertEquals(12, mySite.getCampgroundID());
-//		
-//	}
+	@Test
+	public void test_get_and_set_accessible() {	
+		boolean accessible = true;
+		mySite.setAccessible(accessible);
+		assertEquals("Yes", mySite.isAccessible());
+		
+		
+		mySite.setAccessible(!accessible);
+		assertEquals("No", mySite.isAccessible());
+	}
 	
 	@Test
 	public void test_get_and_set_rv_length() {	
@@ -93,5 +96,21 @@ public class JDBCSiteDAOTest {
 		mySite.setMaxRvLength(maxRvLength);
 		assertEquals("N/A", mySite.getMaxRvLength());
 		
+		maxRvLength = "35";
+		mySite.setMaxRvLength(maxRvLength);
+		assertEquals("35", mySite.getMaxRvLength());
 	}
+	
+	@Test
+	public void test_get_and_set_utilities() {	
+		boolean utilities = true;
+		mySite.setUtilities(utilities);
+		assertEquals("Yes", mySite.isUtilities());
+		
+		mySite.setUtilities(!utilities);
+		assertEquals("No", mySite.isUtilities());
+	}
+	
+	@Test
+	public void get_all_tests
 }

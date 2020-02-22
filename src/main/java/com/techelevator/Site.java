@@ -7,7 +7,7 @@ public class Site {
 	private int	maxOccupancy;
 	private boolean accessible;
 	private String maxRvLength;
-	private boolean utilites;
+	private boolean utilities;
 	public int getSiteId() {
 		return siteId;
 	}
@@ -32,8 +32,12 @@ public class Site {
 	public void setMaxOccupancy(int maxOccupancy) {
 		this.maxOccupancy = maxOccupancy;
 	}
-	public boolean isAccessible() {
-		return accessible;
+	public String isAccessible() {
+		if (accessible) {
+			return "Yes";
+		}else {
+		return "No";
+		}
 	}
 	public void setAccessible(boolean accessible) {
 		this.accessible = accessible;
@@ -48,11 +52,15 @@ public class Site {
 	public void setMaxRvLength(String maxRvLength) {
 		this.maxRvLength = maxRvLength;
 	}
-	public boolean isUtilites() {
-		return utilites;
+	public String isUtilities() {
+		if (utilities) {
+			return "Yes";
+		}else {
+		return "No";
+		}
 	}
-	public void setUtilites(boolean utilites) {
-		this.utilites = utilites;
+	public void setUtilities(boolean utilities) {
+		this.utilities = utilities;
 	}
 	
 	
