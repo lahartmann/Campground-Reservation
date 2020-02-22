@@ -7,6 +7,15 @@ import java.util.Scanner;
 
 public class CampgroundMenu {
 	
+	private void displayMenuOptions(Object[] options) {
+		System.out.println();
+		for(int i = 0; i < options.length; i++) {
+			int optionNum = i+1;
+			System.out.println(optionNum+") "+options[i]);
+		}
+		System.out.print("\nPlease choose an option >>> ");
+		System.out.flush();
+	}
 
 //		private PrintWriter out;
 //		private Scanner in;
