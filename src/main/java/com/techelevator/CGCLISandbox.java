@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class CampgroundCLI {
+public class CGCLISandbox {
 	
 	
 
@@ -55,7 +55,7 @@ public class CampgroundCLI {
 
 	}
 
-	public CampgroundCLI(DataSource datasource) {
+	public CGCLISandbox(DataSource datasource) {
 		parkDAO = new JDBCParkDAO(datasource);
 		campgroundDAO = new JDBCCampgroundDAO(datasource);
 		siteDAO = new JDBCSiteDAO(datasource);
@@ -63,9 +63,20 @@ public class CampgroundCLI {
 	}
 
 	public void run() {
+
+		System.out.println("Welcome to the Campground Booking App");
+
 		while (true) {
-			printRunHeader();
-			
+			List parkList = new ArrayList<>();
+			parkNames = parkDAO.getAllParks();
+			for (int i = 0; i < parkNames.size(); i++) {
+				parkList.add(parkNames.get(i).getPark_id());
+				parkList.add(parkNames.get(i).getName());
+			}
+
+			menu.displayMenuOptions(parkList);
+				
+			System.out.println("Select a park number for futher details or Q to quit");
 			firstOption = campScanner.nextLine();
 
 			if (firstOption.equalsIgnoreCase("Q")) {
@@ -81,7 +92,7 @@ public class CampgroundCLI {
 
 	private void campMenuTwo() {
 
-		
+		// while(!secondOption.equalsIgnoreCase("2")) {
 		printMenuTwoHeader(firstOption);
 		secondOption = campScanner.nextLine();
 		if (secondOption.equals("1")) {
@@ -133,7 +144,7 @@ public class CampgroundCLI {
 					endDate = campScanner.nextLine();
 					
 					try{
-						LocalDate.parse(endDate, DateTimeFormatter.ofPattern("uuuu-M-dd"));
+						LocalDate.parse(endDate, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
 						endLocalDate = LocalDate.parse(endDate);
 						if(endLocalDate.isBefore(startLocalDate) || endLocalDate.isEqual(startLocalDate)) {
 							System.out.println("Departure date must be after start date");
@@ -145,7 +156,7 @@ public class CampgroundCLI {
 						System.out.println("Please enter date as yyyy-mm-dd");
 						}
 					}campMenuFour();
-				}//System.out.println("Please enter valid campground id");//This needs to work to handle invaild campsite codes	
+				} //System.out.println("Please enter valid campground id");//This needs to work to handle invaild campsite codes	
 			}
 	
 	
@@ -174,22 +185,6 @@ public class CampgroundCLI {
 	
 
 	// Helper Methods
-	private void printRunHeader() {
-		System.out.println("Welcome to the Campground Booking App");
-		
-		List parkList = new ArrayList();
-		parkNames = parkDAO.getAllParks();
-		
-		for (int i = 0; i < parkNames.size(); i++) {
-			int optionNum = i+1;
-			
-			System.out.println(optionNum + ") " + (parkNames.get(i).getPark_id() 
-					+ " " + " " + parkNames.get(i).getName()));
-			}
-			System.out.println("Select a park number for futher details or Q to quit");
-	}
-	
-	
 	private void printMenuTwoHeader(String firstOption) {
 		displayPark = parkNames.get(Integer.parseInt(firstOption) - 1);
 
@@ -210,9 +205,7 @@ public class CampgroundCLI {
 		List<Campground> campgroundNames = new ArrayList<>();
 		campgroundNames = campgroundDAO.getCampgroundByParkId(Integer.parseInt(firstOption));
 		for (int i = 0; i < campgroundNames.size(); i++) {
-			int optionNum = i+1;
-			
-			System.out.println(optionNum + ") " + campgroundNames.get(i).getCampgroundId() 
+			System.out.println(campgroundNames.get(i).getCampgroundId() 
 					+ " " + " " + campgroundNames.get(i).getName()
 					+ " " + " " + Integer.parseInt(campgroundNames.get(i).getOpenDate()) 
 					+ " " + " " + campgroundNames.get(i).getCloseDate() 
@@ -247,4 +240,6 @@ public class CampgroundCLI {
 				+ " " + " 		" + displayCampground.getDailyFee().longValue() * lengthOfStay);		
 			}
 		}
+
+	
 }
