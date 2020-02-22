@@ -166,6 +166,13 @@ public class CampgroundCLI {
 				}
 			} System.out.println("Enter a valid site number");
 			}
+		else if (Integer.parseInt(fourthOption) <= siteList.size()) {
+			System.out.println("Enter name for reservation");
+			reservationName = campScanner.nextLine();
+			newReservation = reservationDAO.createReservation(Integer.parseInt(fourthOption), reservationName, startLocalDate, endLocalDate);
+			System.out.println("Your site is reservered. Your reservation number is; " + newReservation.getReservationId());
+		}else {
+			System.out.println("Enter a valid site number");
 		}
 	}
 		
