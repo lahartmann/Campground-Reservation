@@ -2,8 +2,9 @@ package com.techelevator;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.techelevator.projects.model.Department;
 
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,20 @@ public class JDBCReservationDAO implements ReservationDAO {
 
 	
 	@Override
-	public Reservation createReservation(Reservation newReservation) {
+	public int createReservation(int siteId, String name, LocalDate startDate, LocalDate endDate) {
 		
 		String sqlNewReservaton = "INSERT INTO reservation(reservation_id, site_id, name, from_date, to_date, create_date)"
 				+ " VALUES(?, ?, ?, ?, ? ,?)";
 		
+		Reservation newReservation = new Reservation();
 		newReservation.setReservationId(getNextReservationID());
+		newReservation.setSiteId(siteId);
+		newReservation.setName(name);
+		newReservation.setFromDate(startDate);
+		newReservation.setToDate(endDate);
+		newReservation.setCreateDate(LocalDate.now());
+		
+		
 	
 		jdbcTemplate.update(sqlNewReservaton, 
 				newReservation.getReservationId(), 
@@ -36,7 +45,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 				newReservation.getToDate(), 
 				newReservation.getCreateDate());
 		
-		return newReservation;
+		return newReservation.getReservationId();
 
 		}
 
@@ -50,34 +59,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 	}
 
 
-	@Override
-	public List<Reservation> openSiteSearchPark() {
-		ArrayList<Reservation>openSitesPark = new ArrayList<>();
-		
-		String sqlOpenSItesSearchPark = SELECT 
-		
-		return null;
-	}
-	
-	public List<Department> searchDepartmentsByName(String nameSearch) {
-		ArrayList<Department> departmentByName = new ArrayList<>();
-		
-		String sqlGetDepartmentByName = "SELECT * FROM department WHERE name LIKE ?";
-		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetDepartmentByName, "%" + nameSearch + "%");
-		
-		while(results.next()) {
-            Department theDepartment = mapRowToDepartment(results);
-            departmentByName.add(theDepartment);
-        }
-		
-		return departmentByName;
-	}
 
 
-	@Override
-	public List<Reservation> openSiteSearchCampground() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }
