@@ -52,6 +52,7 @@ public class Site {
 	public void setMaxRvLength(String maxRvLength) {
 		this.maxRvLength = maxRvLength;
 	}
+	
 	public String isUtilities() {
 		if (utilities) {
 			return "Yes";

@@ -24,7 +24,7 @@ public class JDBCSiteDAO implements SiteDAO {
 	@Override
 	public List<Site> getAllSites() {
 		ArrayList<Site> siteList = new ArrayList<>();
-		String sqlGetAllSites = "SELECT site_id, campground_id, site_number, max_occupancy, accessible, max_rv_length, utilites " + "FROM site";
+		String sqlGetAllSites = "SELECT site_id, campground_id, site_number, max_occupancy, accessible, max_rv_length, utilities " + "FROM site";
 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllSites);
 		while (results.next()) {
@@ -58,11 +58,25 @@ public class JDBCSiteDAO implements SiteDAO {
 		return  availableSites;
 	}
 	
+//	@Override
+//	public int getSiteIdBySiteNumber(int siteNumber)
+//	
 	@Override
 	public Site createSite(Site newSite) {
 		String sqlCreateSite = "INSERT INTO site (campground_id, site_number, max_occupancy, accessible, max_rv_length, utilities)" + "VALUES ( ?, ?, ?, ?, ?, ?)";
-
-		jdbcTemplate.update(sqlCreateSite, newSite.getCampgroundID(), newSite.getSiteNumber(), newSite.getMaxOccupancy(), newSite.isAccessible(), newSite.getMaxRvLength(), newSite.isUtilities());
+		boolean accessible;
+		boolean utilities;
+		if (newSite.isAccessible().equals("Yes")) {
+			accessible = true;
+		} else {
+			accessible = false;
+		}
+		if (newSite.isUtilities().equals("Yes")) {
+			utilities = true;
+		} else {
+			utilities = false;
+		}
+		jdbcTemplate.update(sqlCreateSite, newSite.getCampgroundID(), newSite.getSiteNumber(), newSite.getMaxOccupancy(), accessible, Integer.parseInt(newSite.getMaxRvLength()), utilities);
 
 		return newSite;
 
