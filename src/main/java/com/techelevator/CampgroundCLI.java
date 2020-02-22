@@ -27,7 +27,7 @@ public class CampgroundCLI {
 	private String firstOption;
 	private String secondOption;
 	private String thirdOption;
-	private String fourthOption;
+	private String fourthOption = "";
 	private Park displayPark;
 	private Campground displayCampground;
 	private Site displaySite;
@@ -139,19 +139,32 @@ public class CampgroundCLI {
 					break;}
 					catch (DateTimeParseException d) {
 						System.out.println("Please enter date as yyyy-mm-dd");
+					}
 						campMenuFour();
 					}
 				} //System.out.println("Please enter valid campground id");//This needs to work to handle invaild campsite codes	
 			}
-	}
+	
 	
 	private void campMenuFour() {
 		
 	printMenuFourHeader();
-		System.out.println("Which site to reserve? (enter 0 to cancel)");
-		fourthOption = campScanner.nextLine();
-		if (fourthOption.equals("0")) {
-			campMenuThree();
+		while(!fourthOption.equals("0")){
+			System.out.println("Which site to reserve? (enter 0 to cancel)");
+			fourthOption = campScanner.nextLine();
+			if (fourthOption.equals("0")){
+				campMenuThree();
+			}else {
+				
+			for(int i = 0; i > siteList.size(); i++) {
+				 if (Integer.parseInt(fourthOption) == siteList.get(i).getSiteNumber()) {
+				System.out.println("Enter name for reservation");
+				int siteID = siteList.get(i).getSiteId();
+				reservationName = campScanner.nextLine();
+				newReservation = reservationDAO.createReservation(siteID, reservationName, startLocalDate, endLocalDate);
+				System.out.println("Your site is reservered. Your reservation number is; " + newReservation.getReservationId());
+				}
+			} System.out.println("Enter a valid site number");
 			}
 		else if (Integer.parseInt(fourthOption) <= siteList.size()) {
 			System.out.println("Enter name for reservation");
@@ -161,10 +174,7 @@ public class CampgroundCLI {
 		}else {
 			System.out.println("Enter a valid site number");
 		}
-			
 	}
-	
-	
 		
 	
 
@@ -217,7 +227,7 @@ public class CampgroundCLI {
 		
 			
 		for (int i = 0; i < siteList.size(); i++) {
-		System.out.println(siteList.get(i).getSiteId()
+		System.out.println(siteList.get(i).getSiteNumber()
 				+ " " + " 		" + siteList.get(i).getMaxOccupancy()
 				+ " " + " 		" + siteList.get(i).isAccessible()
 				+ " " + "		" + siteList.get(i).getMaxRvLength()
