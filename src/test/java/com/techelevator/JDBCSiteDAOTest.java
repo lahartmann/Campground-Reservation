@@ -59,8 +59,39 @@ public class JDBCSiteDAOTest {
 	@Test
 	public void test_get_and_set_campground_Id() {	
 		int campgroundId = 12;
-		mySite.
-		assertEquals(12, mySite.getSiteId());
+		mySite.setCampgroundID(campgroundId);
+		assertEquals(12, mySite.getCampgroundID());
+		
+	}
+	
+	@Test
+	public void test_get_and_set_site_number() {	
+		int siteNumber = 12;
+		mySite.setSiteNumber(siteNumber);
+		assertEquals(12, mySite.getSiteNumber());	
+	}
+	
+	@Test
+	public void test_get_and_set_occupancy() {	
+		int maxOccupancy = 8;
+		mySite.setMaxOccupancy(maxOccupancy);;
+		assertEquals(8, mySite.getMaxOccupancy());
+		
+	}
+	
+//	@Test
+//	public void test_get_and_set_accessible() {	
+//		boolean accessible;
+//		mySite.setAccessible(accessible);
+//		assertEquals(12, mySite.getCampgroundID());
+//		
+//	}
+	
+	@Test
+	public void test_get_and_set_rv_length() {	
+		String maxRvLength = "0";
+		mySite.setMaxRvLength(maxRvLength);
+		assertEquals("N/A", mySite.getMaxRvLength());
 		
 	}
 }

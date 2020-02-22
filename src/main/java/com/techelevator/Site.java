@@ -6,7 +6,7 @@ public class Site {
 	private int siteNumber;
 	private int	maxOccupancy;
 	private boolean accessible;
-	private int maxRvLength;
+	private String maxRvLength;
 	private boolean utilites;
 	public int getSiteId() {
 		return siteId;
@@ -38,10 +38,14 @@ public class Site {
 	public void setAccessible(boolean accessible) {
 		this.accessible = accessible;
 	}
-	public int getMaxRvLength() {
+	public String getMaxRvLength() {
+		if (maxRvLength.equals("0")) {
+			return "N/A";
+		}else {
 		return maxRvLength;
+		}
 	}
-	public void setMaxRvLength(int maxRvLength) {
+	public void setMaxRvLength(String maxRvLength) {
 		this.maxRvLength = maxRvLength;
 	}
 	public boolean isUtilites() {
