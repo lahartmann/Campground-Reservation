@@ -27,13 +27,19 @@ public class CampgroundCLI {
 	private String firstOption;
 	private String secondOption;
 	private String thirdOption;
+	private String fourthOption;
 	private Park displayPark;
 	private Campground displayCampground;
 	private Site displaySite;
 	private String startDate;
 	private String endDate;
+	private String reservationName;
 	private Long lengthOfStay;
+	private LocalDate startLocalDate;
+	private LocalDate endLocalDate;
 	private List<Park> parkNames = new ArrayList<>();
+	private List <Campground> campgroundNames = new ArrayList<>();
+	private List <Site> siteList = new ArrayList<>();
 	private Scanner campScanner = new Scanner(System.in);
 
 	public static void main(String[] args) throws SQLException {
@@ -100,7 +106,7 @@ public class CampgroundCLI {
 	}
 
 	private void campMenuThree() {
-		List <Campground> campgroundNames = new ArrayList<>();
+		
 		
 		printMenuThreeHeader();
 			while(true) {
@@ -114,7 +120,7 @@ public class CampgroundCLI {
 						System.out.println("Enter arrival date (yyyy-mm-dd)");
 						startDate = campScanner.nextLine();
 						try {
-							LocalDate.parse(startDate, DateTimeFormatter.ofPattern("uuuu-MM-dd"));//check method(DateTimeFormater) for proper string format 
+							LocalDate.parse(startDate, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
 							break;}
 						catch (DateTimeParseException e) {
 							System.out.println("Please enter date as yyyy-mm-dd");
@@ -139,9 +145,27 @@ public class CampgroundCLI {
 	}
 	
 	private void campMenuFour() {
-		printMenuFourHeader();
 		
+	printMenuFourHeader();
+		System.out.println("Which site to reserve? (enter 0 to cancel)");
+		fourthOption = campScanner.nextLine();
+		if (fourthOption.equals("0")) {
+			campMenuThree();
+			}
+		else if (Integer.parseInt(fourthOption) <= siteList.size()) {
+			System.out.println("Enter name for reservation");
+			reservationName = campScanner.nextLine();
+			int reservationID = reservationDAO.createReservation(Integer.parseInt(fourthOption), reservationName, startLocalDate, endLocalDate);
+			System.out.println("Your site is reservered. Your reservation number is; " + reservationID);
+		}else {
+			System.out.println("Enter a valid site number");
+		}
+			
 	}
+	
+	
+		
+	
 
 	// Helper Methods
 	private void printMenuTwoHeader(String firstOption) {
@@ -180,18 +204,17 @@ public class CampgroundCLI {
 		System.out.println("Site # 	 Max Occup. 	Accessible	RV Length	Utilities	Cost of Stay");
 		
 		
-		LocalDate startLocalDate = LocalDate.parse(startDate);
-		LocalDate endLocalDate = LocalDate.parse(endDate);
+		startLocalDate = LocalDate.parse(startDate);
+		endLocalDate = LocalDate.parse(endDate);
 		lengthOfStay = ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
 		
-		List <Site> siteList = new ArrayList<>();
+		
 		siteList = siteDAO.getAvailableSitesByReservationDate
 				(Integer.parseInt(thirdOption), 
 				startLocalDate, 
 				endLocalDate);
 		
 			
-		
 		for (int i = 0; i < siteList.size(); i++) {
 		System.out.println(siteList.get(i).getSiteId()
 				+ " " + " 		" + siteList.get(i).getMaxOccupancy()
