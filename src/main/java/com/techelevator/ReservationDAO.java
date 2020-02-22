@@ -9,5 +9,5 @@ public interface ReservationDAO {
 	
 
 
-	public int createReservation(int siteId, String name, LocalDate startDate, LocalDate endDate);
+	public Reservation createReservation(int siteId, String name, LocalDate startDate, LocalDate endDate);
 }
