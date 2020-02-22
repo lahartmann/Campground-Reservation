@@ -1,9 +1,11 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +32,7 @@ public class CampgroundCLI {
 	private Site displaySite;
 	private String startDate;
 	private String endDate;
+	private Long lengthOfStay;
 	private List<Park> parkNames = new ArrayList<>();
 	private Scanner campScanner = new Scanner(System.in);
 
@@ -167,26 +170,35 @@ public class CampgroundCLI {
 					+ " " + " " + campgroundNames.get(i).getCloseDate() 
 					+ " " + " " + campgroundNames.get(i).getDailyFee());
 			
-			displayCampground = campgroundNames.get();
+			displayCampground = campgroundNames.get(Integer.parseInt(secondOption)-1);
 		}
 	}
 
 	private void printMenuFourHeader()	{
 		
 		System.out.println("Available camp sites:");
-		System.out.printf("Site # /t Max Accup");
+		System.out.println("Site # 	 Max Occup. 	Accessible	RV Length	Utilities	Cost of Stay");
+		
+		
+		LocalDate startLocalDate = LocalDate.parse(startDate);
+		LocalDate endLocalDate = LocalDate.parse(endDate);
+		lengthOfStay = ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
+		
 		List <Site> siteList = new ArrayList<>();
 		siteList = siteDAO.getAvailableSitesByReservationDate
 				(Integer.parseInt(thirdOption), 
-				LocalDate.parse(startDate), 
-				LocalDate.parse(endDate));
+				startLocalDate, 
+				endLocalDate);
+		
+			
+		
 		for (int i = 0; i < siteList.size(); i++) {
 		System.out.println(siteList.get(i).getSiteId()
-				+ " " + " " + siteList.get(i).getMaxOccupancy()
-				+ " " + " " + siteList.get(i).isAccessible()
-				+ " " + " " + siteList.get(i).getMaxRvLength()
-				+ " " + " " + siteList.get(i).isUtilites()
-				//+ " " + " " + displayCampground.getDailyFee());		
+				+ " " + " 		" + siteList.get(i).getMaxOccupancy()
+				+ " " + " 		" + siteList.get(i).isAccessible()
+				+ " " + "		" + siteList.get(i).getMaxRvLength()
+				+ " " + " 		" + siteList.get(i).isUtilites()
+				+ " " + " 		" + displayCampground.getDailyFee().longValue() * lengthOfStay);		
 			}
 		}
-	}
+}
