@@ -75,7 +75,7 @@ public class JDBCSiteDAO implements SiteDAO {
 		allSites.setSiteNumber(results.getInt("site_number"));
 		allSites.setMaxOccupancy(results.getInt("max_occupancy"));
 		allSites.setAccessible(results.getBoolean("accessible"));
-		allSites.setMaxRvLength(results.getInt("max_rv_length"));
+		allSites.setMaxRvLength(results.getString("max_rv_length"));
 		allSites.setUtilites(results.getBoolean("utilities"));
 		
 
