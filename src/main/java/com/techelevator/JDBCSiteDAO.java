@@ -50,7 +50,7 @@ public class JDBCSiteDAO implements SiteDAO {
 				//"ORDER BY XXXXXXX " + //what do we want to order by???
 				"LIMIT 5";
 		Site theSite;
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetFiveAvailableSites, campgroundId, fromDate, toDate);
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetFiveAvailableSites, campgroundId, toDate, fromDate);
 		while(results.next()) {
 			theSite = mapRowToSites(results); 
 			availableSites.add(theSite);
