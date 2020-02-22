@@ -139,10 +139,6 @@ public class CampgroundCLI {
 		printMenuFourHeader();
 		
 	}
-	
-	
-	
-		
 
 	// Helper Methods
 	private void printMenuTwoHeader(String firstOption) {
@@ -170,10 +166,13 @@ public class CampgroundCLI {
 					+ " " + " " + Integer.parseInt(campgroundNames.get(i).getOpenDate()) 
 					+ " " + " " + campgroundNames.get(i).getCloseDate() 
 					+ " " + " " + campgroundNames.get(i).getDailyFee());
+			
+			displayCampground = campgroundNames.get();
 		}
 	}
 
 	private void printMenuFourHeader()	{
+		
 		System.out.println("Available camp sites:");
 		System.out.printf("Site # /t Max Accup");
 		List <Site> siteList = new ArrayList<>();
@@ -187,7 +186,7 @@ public class CampgroundCLI {
 				+ " " + " " + siteList.get(i).isAccessible()
 				+ " " + " " + siteList.get(i).getMaxRvLength()
 				+ " " + " " + siteList.get(i).isUtilites()
-				+ " " + " " + displayCampground.getDailyFee());		
+				//+ " " + " " + displayCampground.getDailyFee());		
 			}
 		}
 	}
