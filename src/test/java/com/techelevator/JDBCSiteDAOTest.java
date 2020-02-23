@@ -141,6 +141,25 @@ public class JDBCSiteDAOTest {
 	}
 	
 	@Test
+	public void get_create_sites() {
+		List<Site> results = dao.getAllSites();
+		assertNotNull(results);	
+		mySite.setCampgroundID(4);
+		mySite.setSiteNumber(1);
+		mySite.setMaxOccupancy(6);
+		mySite.setAccessible(false);
+		mySite.setMaxRvLength("35");
+		mySite.setUtilities(true);
+		dao.createSite(mySite);
+		
+
+		List<Site> results2 = dao.getAllSites();
+		
+		assertNotNull(results2);	
+		assertEquals(results.size() + 1, results2.size());
+		
+	}
+	@Test
 	public void get_sites_by_reservation_date() {
 		List<Site> results = dao.getAvailableSitesByReservationDate(1, LocalDate.of(2020, 03, 13), LocalDate.of(2020, 03, 15));
 		assertNotNull(results);	

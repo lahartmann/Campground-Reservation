@@ -1,8 +1,11 @@
 package com.techelevator;
 
+import java.awt.Font;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -100,7 +103,7 @@ public class CampgroundCLI {
 		
 		printMenuThreeHeader();
 			while(true) {
-				System.out.println("Which campground? (enter 0 to return to previous menu.)");
+				System.out.println("Which campground? (enter 0 to return to previous menu)");
 				thirdOption = campScanner.nextLine();
 				if (thirdOption.equals("0")) {
 					campMenuTwo();
@@ -117,13 +120,13 @@ public class CampgroundCLI {
 							LocalDate.parse(startDate, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
 							startLocalDate = LocalDate.parse(startDate);
 							if (startLocalDate.isBefore(LocalDate.now())) {
-								System.out.println("Date must not be in the past.");
+								System.out.println("\n***Date must not be in the past.***\n");
 							}else {
 								break;
 							}
 						}	
 						catch (DateTimeParseException e) {
-							System.out.println("Please enter date as yyyy-mm-dd");
+							System.out.println("\n***Please enter date as yyyy-mm-dd***\n");
 							}
 						}
 					}
@@ -136,7 +139,7 @@ public class CampgroundCLI {
 						LocalDate.parse(endDate, DateTimeFormatter.ofPattern("uuuu-M-dd"));
 						endLocalDate = LocalDate.parse(endDate);
 						if(endLocalDate.isBefore(startLocalDate) || endLocalDate.isEqual(startLocalDate)) {
-							System.out.println("Departure date must be after start date");
+							System.out.println("\n***Departure date must be after start date***\n");
 						}else {
 							break;
 						}
@@ -183,8 +186,8 @@ public class CampgroundCLI {
 		for (int i = 0; i < parkNames.size(); i++) {
 			int optionNum = i+1;
 			
-			System.out.println(optionNum + ") " + (parkNames.get(i).getPark_id() 
-					+ " " + " " + parkNames.get(i).getName()));
+			System.out.println(optionNum + ") " 
+					+ " " + " " + parkNames.get(i).getName());
 			}
 			System.out.println("Select a park number for futher details or Q to quit");
 	}
@@ -192,13 +195,12 @@ public class CampgroundCLI {
 	
 	private void printMenuTwoHeader(String firstOption) {
 		displayPark = parkNames.get(Integer.parseInt(firstOption) - 1);
-
-		System.out.println("Park Info Screen");
-		System.out.println(displayPark.getName());
-		System.out.println("Location: " + displayPark.getLocation());
-		System.out.println("Established: " + displayPark.getEstablish_date());
-		System.out.println("Area: " + displayPark.getArea());
-		System.out.println("Annual Vistors: " + displayPark.getVisitors());
+		System.out.println("Park Information Screen");
+		System.out.println(displayPark.getName() + " National Park");
+		System.out.println("Location: " + "\t" + displayPark.getLocation());
+		System.out.println("Established: " + "\t" + displayPark.getEstablish_date().getMonthValue() + "/" + displayPark.getEstablish_date().getDayOfMonth() + "/" + displayPark.getEstablish_date().getYear());
+		System.out.println("Area: " + "\t\t" + NumberFormat.getNumberInstance(Locale.US).format(displayPark.getArea()) + " sq km");
+		System.out.println("Annual Vistors: " + NumberFormat.getNumberInstance(Locale.US).format(displayPark.getVisitors()));
 		System.out.println("**********************************************");
 		System.out.println("Select an Option: ");
 		System.out.println("1) View Campgrounds and reserve a site ");
@@ -209,14 +211,13 @@ public class CampgroundCLI {
 	private void printMenuThreeHeader() {
 		List<Campground> campgroundNames = new ArrayList<>();
 		campgroundNames = campgroundDAO.getCampgroundByParkId(Integer.parseInt(firstOption));
+		System.out.printf("%-20s %-13s %-10s %-20s %n", "   Name", "   Open", "Close", "Daily Fee");
 		for (int i = 0; i < campgroundNames.size(); i++) {
 			int optionNum = i+1;
 			
-			System.out.println(optionNum + ") " + campgroundNames.get(i).getCampgroundId() 
-					+ " " + " " + campgroundNames.get(i).getName()
-					+ " " + " " + Integer.parseInt(campgroundNames.get(i).getOpenDate()) 
-					+ " " + " " + campgroundNames.get(i).getCloseDate() 
-					+ " " + " " + campgroundNames.get(i).getDailyFee());
+			System.out.printf("%d%s %-20s %-10s %-10s %s%.2f %n", optionNum,")", 
+					 campgroundNames.get(i).getName(), Month.of(Integer.parseInt(campgroundNames.get(i).getOpenDate())), 
+					Month.of(Integer.parseInt(campgroundNames.get(i).getCloseDate())), "$", campgroundNames.get(i).getDailyFee());
 			
 			displayCampground = campgroundNames.get(Integer.parseInt(secondOption)-1);
 		}
@@ -244,7 +245,7 @@ public class CampgroundCLI {
 				+ " " + " 		" + siteList.get(i).isAccessible()
 				+ " " + "		" + siteList.get(i).getMaxRvLength()
 				+ " " + " 		" + siteList.get(i).isUtilities()
-				+ " " + " 		" + displayCampground.getDailyFee().longValue() * lengthOfStay);		
+				+ " " + " 		" +  "$" + displayCampground.getDailyFee().longValue() * lengthOfStay);		
 			}
 		}
 }
