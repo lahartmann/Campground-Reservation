@@ -70,7 +70,7 @@ public class CampgroundCLI {
 			printRunHeader();
 			
 			firstOption = campScanner.nextLine();
-
+			try {
 			if (firstOption.equalsIgnoreCase("Q")) {
 				System.out.println("Thank you for computing, have a pleasant day!");
 				System.exit(0);
@@ -78,6 +78,10 @@ public class CampgroundCLI {
 				campMenuTwo();
 			} else {
 				System.out.println("Please make a valid selection");
+			} 
+			}catch(NumberFormatException e) {
+				System.out.println("Please make a valid selection");
+
 			}
 		}
 	}
