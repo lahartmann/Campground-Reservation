@@ -212,6 +212,7 @@ public class CampgroundCLI {
 		System.out.println("Established: " + "\t" + displayPark.getEstablish_date().getMonthValue() + "/" + displayPark.getEstablish_date().getDayOfMonth() + "/" + displayPark.getEstablish_date().getYear());
 		System.out.println("Area: " + "\t\t" + NumberFormat.getNumberInstance(Locale.US).format(displayPark.getArea()) + " sq km");
 		System.out.println("Annual Vistors: " + NumberFormat.getNumberInstance(Locale.US).format(displayPark.getVisitors()));
+		System.out.println(("\n" + displayPark.getDescription()) + "\n");
 		System.out.println("**********************************************");
 		System.out.println("Select an Option: ");
 		System.out.println("1) View Campgrounds and reserve a site ");
